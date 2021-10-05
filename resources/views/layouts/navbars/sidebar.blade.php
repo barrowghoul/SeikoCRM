@@ -305,11 +305,34 @@
                     <p>{{ __('Charts') }}</p>
                 </a>
             </li>
-            <li class="{{ $elementActive == 'calendar' ? 'active' : '' }}">
-                <a href="#">
-                    <i class="nc-icon nc-calendar-60"></i>
-                    <p>{{ __('Calendar') }}</p>
+            <li class="{{ $folderActive == 'settings' ? 'active' : '' }}">
+                <a data-toggle="collapse" href="#settingsElements" aria-expanded="{{ $folderActive == 'settings' ? 'true' :''}}">
+                    <i class="nc-icon nc-settings-gear-65"></i>
+                    <p>
+                            {{ __('Settings') }}
+                        <b class="caret"></b>
+                    </p>                    
                 </a>
+                <div class="collapse {{ $folderActive == 'settings' ? 'show' : ''}}" id="settingsElements">
+                    <ul class="nav">
+                        @can('ver roles')
+                            <li class="{{ $elementActive == 'roles' ? 'active' : '' }}">
+                                <a href="{{ route('roles.index') }}">
+                                    <span class="sidebar-mini-icon">{{ __('RM') }}</span>
+                                    <span class="sidebar-nomral">{{ __('Role Management') }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('ver usuarios')
+                            <li class="{{ $elementActive == 'users' ? 'active' : '' }}">
+                                <a href="{{ route('users.index') }}">
+                                    <span class="sidebar-mini-icon">{{ __('UM') }}</span>
+                                    <span class="sidebar-nomral">{{ __('User Management') }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </div>
             </li>
         </ul>
     </div>

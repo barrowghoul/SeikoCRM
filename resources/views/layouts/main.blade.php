@@ -66,7 +66,7 @@
 
 
         <!-- Schema.org markup for Google+ -->
-        <meta itemprop="name" content="Paper Dashboard PRO Laravel by Creative Tim">
+        <meta itemprop="name" content="Seiko CRM">
         <meta itemprop="description" content="Start your development with a premium Bootstrap 4 Admin Dashboard built for Laravel Framework 8.x and Up.">
 
         <meta itemprop="image" content="https://s3.amazonaws.com/creativetim_bucket/products/208/original/opt_pdp_laravel_thumbnail.jpg">
@@ -75,7 +75,7 @@
         <!-- Twitter Card data -->
         <meta name="twitter:card" content="product">
         <meta name="twitter:site" content="@creativetim">
-        <meta name="twitter:title" content="Paper Dashboard PRO Laravel by Creative Tim">
+        <meta name="twitter:title" content="Seiko CRM">
 
         <meta name="twitter:description" content="Start your development with a premium Bootstrap 4 Admin Dashboard built for Laravel Framework 8.x and Up.">
         <meta name="twitter:creator" content="@creativetim">
@@ -84,7 +84,7 @@
 
         <!-- Open Graph data -->
         <meta property="fb:app_id" content="655968634437471">
-        <meta property="og:title" content="Paper Dashboard PRO Laravel by Creative Tim" />
+        <meta property="og:title" content="PSeiko CRM" />
         <meta property="og:type" content="article" />
         <meta property="og:url" content="https://www.creative-tim.com/live/paper-dashboard-pro-laravel" />
         <meta property="og:image" content="https://s3.amazonaws.com/creativetim_bucket/products/208/original/opt_pdp_laravel_thumbnail.jpg"/>
@@ -105,6 +105,7 @@
         {{-- <link href="{{ asset('paper/paper-dashboard.css') }}" rel="stylesheet"> --}}
         <!-- CSS Just for demo purpose, don't include it in your project -->
         <link href="{{ asset('demo/demo.css') }}" rel="stylesheet">
+        @livewireStyles
     </head>
     <body class="{{ $class }}">
         @if (env('IS_DEMO'))
@@ -167,7 +168,7 @@
         <script src="{{ asset('/demo/jquery.sharrre.js') }}"></script>
         
         @stack('scripts')
-
+        @livewireScripts
         @include('layouts.navbars.fixed-plugin-js')
 
     </body>
