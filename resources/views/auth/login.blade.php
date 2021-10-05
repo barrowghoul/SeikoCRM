@@ -16,7 +16,7 @@
             <div class="header-body text-center mb-7">
                  <div class="row justify-content-center">
                     <div class="col-lg-8 col-md-9">
-                        <h2 class="text-white">{{ __('Welcome to Paper Dashboard Pro Laravel Live Preview.') }}</h2>
+                        <h2 class="text-white">{{ __('Welcome to Seiko CRM') }}</h2>
 
                         <p class="text-lead text-light mt-3 mb-0">
                             {{ __('Log in and see how you can save more than 150 hours of work with CRUDs for managing: #users, #roles, #items, #categories, #tags and more.') }}
@@ -27,11 +27,7 @@
                         <h4 class="text-lead text-white mt-5 mb-0">
                             <strong>{{ __('You can log in with 3 user types:') }}</strong>
                         </h4>
-                        <ol class="text-lead text-light mt-3 mb-0">
-                            <li>{{ __('Username is') }} <b>admin@paper.com</b> {{ __('. Password is ') }} <b>secret</b> {{ __('.')}}</li>
-                            <li>{{ __('Username is') }} <b>creator@paper.com</b> {{ __('. Password is ') }} <b>secret</b> {{ __('.')}}</li>
-                            <li>{{ __('Username is') }} <b>member@paper.com </b>{{ __('. Password is ') }} <b>secret</b> {{ __('.')}}</li>
-                        </ol>
+                        
                     </div>
                 </div>
             </div>
@@ -98,9 +94,7 @@
                 <a href="{{ route('password.request') }}" class="btn btn-link">
                     {{ __('Forgot password') }}
                 </a>
-                <a href="{{ route('register') }}" class="btn btn-link float-right">
-                    {{ __('Create Account') }}
-                </a>
+                
             </div>
         </div>
     </div>
