@@ -1,12 +1,12 @@
 @extends('layouts.main', [
     'title' => __('User Management'),
     'class' => '',
-    'folderActive' => 'settings',
-    'elementActive' => 'userElement'
+    'folderActive' => 'cutomers',
+    'elementActive' => 'customerElement'
 ])
 
 @section('content')
     <div class="content">
-        @livewire('admin-users')
+        @livewire('admin-customers')
     </div>>
 @endsection
