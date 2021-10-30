@@ -47,7 +47,13 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($prospects as $prospect)
-                                            <tr>                                                
+                                            @if($prospect->approval_status == 2)
+                                                <tr class="table-warning">                                                
+                                            @elseif($prospect->approval_status == 3)
+                                                <tr class="table-danger">
+                                            @else
+                                                </tr>
+                                            @endif
                                                 <td>{{ $prospect->name }}</td>
                                                 <td>
                                                     <a href="mailto:{{ $prospect->email }}">{{ $prospect->email }}</a>

@@ -35,10 +35,26 @@
                                         @include('alerts.feedback', ['field' => 'name'])
                                     </div>
                                     <div class="form-group">
+                                        <label class="form-control-label" for="input-name">{{ __('Address') }}</label>
+                                        <input type="text" name="address" id="input-address" class="form-control" value="{{ old('address') }}" required="true">
+
+                                        @include('alerts.feedback', ['field' => 'name'])
+                                    </div>
+                                    <div class="form-group">
                                         <label class="form-control-label" for="input-name">{{ __('Contact') }}</label>
                                         <input type="text" name="contact" id="input-contact" class="form-control"  required="true">
 
                                         @include('alerts.feedback', ['field' => 'contact'])
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-6">
+                                            <label class="form-control-label" for="input-">{{ __('Phone') }}</label>
+                                            <input type="text" name="phone" id="input-phone" class="form-control"  required="true">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-control-label" for="input-">{{ __('Mobile') }}</label>
+                                            <input type="text" name="mobile" id="input-mobile" class="form-control"  required="true">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-email">{{ __('Email') }}</label>

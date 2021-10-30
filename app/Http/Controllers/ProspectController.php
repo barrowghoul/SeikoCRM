@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BranchOffice;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProspectController extends Controller
 {
@@ -18,16 +19,24 @@ class ProspectController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:customers',
+            'address' => 'required',
             'contact' => 'required',
+            'phone' => 'required|min:10',
+            'mobile' => 'required|min:10',
             'email' => 'email:rfc'
         ]);
-
+    
         Customer::create([
             'name' => strtoupper($request->name),
             'contact' => strtoupper($request->contact),
+            'address' => strtoupper($request->address),
+            'phone' => $request->phone,
+            'mobile' => $request->mobile,
             'email' => $request->email,
             'status' => Customer::PROSPECT,
+            'approval_status'  => Customer::ONTIME,
+            'created_by' => Auth::user()->id,
         ]);
 
         return redirect()->route('prospects.index');

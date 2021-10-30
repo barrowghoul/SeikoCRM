@@ -14,7 +14,11 @@ class Customer extends Model
     const CLIENT = 3;
     const SUSPENDED = 4;
 
-    protected $fillable = ['name', 'contact', 'email'];
+    const ONTIME = 1;
+    const ALERTED = 2;
+    const EXPIRED = 3;
+
+    protected $fillable = ['name', 'address', 'contact', 'mobile', 'phone', 'email', 'status', 'approved_at', 'approval_status', 'created_by'];
 
     public function brach_offices(){
         return $this->hasMany(BranchOffice::class);
