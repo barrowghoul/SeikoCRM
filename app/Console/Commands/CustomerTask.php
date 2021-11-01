@@ -38,13 +38,15 @@ class CustomerTask extends Command
      * @return int
      */
     public function handle()
-    {
-        Customer::where('status', '>', 2)
-        ->where('created_at', '>', Carbon::now()->subHours(2)->toDateTimeString())
-        ->update(['approval_status' => 3]);
+    {        
+        Customer::where('status', '<=', 2)
+        ->where('approval_status', '=', 1)
+        ->where('created_at', '<=', Carbon::now()->subMinutes(1)->toDateTimeString())
+        ->update(['approval_status' => 2]);
 
         Customer::where('status', '<=', 2)
-        ->where('created_at', '>', Carbon::now()->subMinutes(30)->toDateTimeString())
-        ->update(['approval_status' => 2]);
+        ->where('approval_status', '=', 2)
+        ->where('created_at', '<=', Carbon::now()->subMinutes(10)->toDateTimeString())
+        ->update(['approval_status' => 3]);
     }
 }

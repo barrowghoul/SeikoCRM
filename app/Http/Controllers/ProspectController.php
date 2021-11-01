@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\BranchOffice;
 use App\Models\Customer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProspectController extends Controller
 {
     public function index(){
+        //dd(Carbon::now()->subMinutes(10)->toDateTimeString());
+
+        
         return view('prospects.index');
     }
 

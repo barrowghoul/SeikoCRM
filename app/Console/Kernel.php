@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('customer:task')->everyMinute()
-                                        ->unlessBetween("08:00", "17:00")
+                                        //->unlessBetween("08:00", "19:30")
                                         ->days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY, Schedule::SATURDAY]);
     }
 
