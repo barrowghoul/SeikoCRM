@@ -16,10 +16,10 @@ class AdminCustomers extends Component
     public function render()
     {        
         $customers = Customer::where('name', 'LIKE', '%' .  $this->search . '%' )->where(function ($query){
-            $query->where('status', '>=', 3);
+            $query->where('status', '>=', 4);
         })
         ->orWhere('email', 'LIKE', '%' . $this->search . '%'  && 'status', '<', 3)->where(function ($query){
-            $query->where('status', '>=', 3);
+            $query->where('status', '>=', 4);
         })->paginate(10);
 
         return view('livewire.admin-customers', compact('customers'));

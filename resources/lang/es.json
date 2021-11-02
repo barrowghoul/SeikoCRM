@@ -60,6 +60,7 @@
     "Web Page": "Página Web",
     "This field is required": "Este campo es obligatorio",
     "Approve Client": "Aprobar Cliente",
+    "Approve Prospect": "Aprobar Prospecto",
     "Close": "Cerrar",
     "Approve": "Aprobar",
     "General Information": "Información General",
@@ -67,5 +68,8 @@
     "Active": "Activo",
     "Suspended": "Suspendido",
     "Actions": "Acciones",
-    "Add Branch": "Agregar Sucursal"
+    "Add Branch": "Agregar Sucursal",
+    "Prospect Information": "Información del Prospecto",
+    "Reject": "Rechazar",
+    "Back": "Regresar"
 }

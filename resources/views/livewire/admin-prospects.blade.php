@@ -18,7 +18,7 @@
                                 </div>
                                 
                             </div>   
-                            @can('crear clientes', App\User::class)
+                            @can('crear prospectos', App\User::class)
                                     <div class="col-4 text-right">
                                         <a href="{{ route('prospects.create') }}" class="btn btn-sm btn-primary">{{ __('Add Prospect') }}</a>
                                     </div>
@@ -47,9 +47,9 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($prospects as $prospect)
-                                            @if($prospect->approval_status == 2)
+                                            @if($prospect->approval_status == 2 && $prospect->status == 1)
                                                 <tr class="table-warning">                                                
-                                            @elseif($prospect->approval_status == 3)
+                                            @elseif($prospect->approval_status == 3 && $prospect->status == 1)
                                                 <tr class="table-danger">
                                             @else
                                                 </tr>
@@ -61,12 +61,14 @@
                                                 <td>
                                                     @if($prospect->status == 1)
                                                         PROSPECTO
+                                                    @elseif($prospect->status == 2)
+                                                        RECHAZADO
                                                     @else
-                                                        PENDIENTE
+                                                        APROBADO
                                                     @endif
                                                 </td>
-                                                <td>{{ $prospect->created_at->format('d/m/Y H:i') }}</td>
-                                                @can('editar clientes')
+                                                <td>{{ $prospect->started_at }}</td>
+                                                @can('editar prospectos')
                                                     <td class="text-right">
                                                         @if (auth()->user()->can('editar usuarios') || auth()->user()->can('suspender usuarios'))
                                                             <div class="dropdown">
@@ -75,7 +77,7 @@
                                                                 </a>
                                                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                                                     @if (Auth::user()->hasPermissionTo('editar prospectos'))
-                                                                        @can('editar clientes')                                                                                
+                                                                        @can('editar prospectos')                                                                                
                                                                             <a class="dropdown-item" href="{{ route('prospects.edit', $prospect) }}">{{ __('Edit') }}</a>
                                                                         @endcan
                                                                         @can('crear clientes')
@@ -86,7 +88,7 @@
                                                                         @can('aprobar clientes')
                                                                             @if($prospect->status == 2)                                                                                
                                                                                 <button class="dropdown-item" data-toggle="modal" data-target="#approveModal">
-                                                                                    {{ __('Approve Client') }}
+                                                                                    {{ __('Approve Prospect') }}
                                                                                   </button>
                                                                                   <!-- small modal -->
                                                                                     <div class="modal fade modal-primary" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -98,7 +100,7 @@
                                                                                             </div>
                                                                                             </div>
                                                                                             <div class="modal-body">
-                                                                                            <p>¿Desea aprobar la solicitud de creación de cliente?</p>
+                                                                                            <p>¿Desea aprobar la solicitud de creación del prospecto?</p>
                                                                                             </div>
                                                                                             <div class="modal-footer">
                                                                                             <div class="left-side">
@@ -119,7 +121,7 @@
                                                                             <form action="{{ route('prospects.destroy', $prospect) }}" method="POST">
                                                                                 @csrf
                                                                                 @method('delete')
-                                                                                <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
+                                                                                <button type="button" class="dropdown-item" onclick="confirm('¿Desea aprobar este prospecto?') ? this.parentElement.submit() : ''">
                                                                                     {{ __('Suspend') }}
                                                                                 </button>
                                                                             </form>

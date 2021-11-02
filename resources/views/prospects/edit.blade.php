@@ -17,18 +17,26 @@
                                     <h3 class="mb-0">{{ __('Prospect Management') }}</h3>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="{{ route('prospects.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
+                                    <a href="{{ route('prospects.index') }}" class="btn btn-sm btn-primary">{{ __('Back') }}</a>
+                                    @can('aprobar clientes')
+                                        @if($prospect->status == 1)
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">{{ _('Rechazar') }}</button>
+                                        @endif
+                                        @if($prospect->status < 3)
+                                            <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#approvalModal">{{ _('Aprobar') }}</button>
+                                        @endif
+                                    @endcan                                    
                                 </div>
                             </div>
                         </div>
-                        @if($prospect->status == 1)
+                        @if($prospect->status < 4)
                             <div class="card-body">
                                 <form method="post" action="{{ route('prospects.update', $prospect) }}" autocomplete="off"
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('put')
 
-                                    <h6 class="heading-small text-muted mb-4">{{ __('prospect information') }}</h6>
+                                    <h6 class="heading-small text-muted mb-4">{{ __('Prospect Information') }}</h6>
                                     <div class="pl-lg-4">
                                         <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name">{{ __('Name') }}</label>
@@ -111,6 +119,7 @@
                                             </div>
                                         </form>
                                     </div>
+                                    @if($prospect->status > 2)
                                     <div class="tab-pane" id="info" role="tabpanel" aria-expanded="false">
                                         <form method="post" id="TypeValidation" action="{{ route('branches.update', $customer) }}" autocomplete="off"
                                             enctype="multipart/form-data">
@@ -226,11 +235,13 @@
                                                     <input type="text" number="true" name="pay_day" class="form-control" id="input-pay_Day"  value="{{ old('pay_day', $customer->pay_days) }}" required="true">
                                                 </div>                                                                                         
                                                 <div class="text-center">
-                                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
+                                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button><br>
+                                                    <a href="#" class="btn btn-danger mt-4">{{ __('Reject') }}</a>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         @endif
@@ -239,4 +250,58 @@
             </div>
         </div>
     </div>
+    <div class="modal" tabindex="-1" id="exampleModal" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <form method="post" action="{{ route('prospect.reject') }}" autocomplete="off">
+                @csrf
+
+                <input type="hidden" name="id" value="{{ $prospect->id }}">
+                <div class="modal-header">
+                <h5 class="modal-title">{{ __('Reject')}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">                
+                    <div class="form-group text-center">
+                        <textarea type="text" class="form-control" name="comment" id="comment"></textarea>
+                    </div>              
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">{{ __('Reject') }}</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal" tabindex="-1" id="approvalModal" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">                      
+                <div class="modal-header">
+                <h5 class="modal-title">{{ __('Approve')}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">                
+                    ¿Desea aprovar este prospecto?          
+                </div>
+                <div class="modal-footer">
+                <a href="{{ route('prospect.approve', $prospect->id) }}" class="btn btn-primary">{{ __('Approve')}}</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
+                </div>
+          </div>
+        </div>
+      </div>
 @endsection
+
+
+@push('scripts')
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })        
+    </script>
+@endpush

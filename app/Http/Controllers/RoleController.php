@@ -41,10 +41,12 @@ class RoleController extends Controller
         //return $request->all();
         $request->validate([
             'name' => 'required',
+            'description' => 'required'
         ]);
 
         $role = Role::create([
             'name'=> $request->name,
+            'description' => $request->description
         ]);
 
         $role->permissions()->attach($request->permissions);

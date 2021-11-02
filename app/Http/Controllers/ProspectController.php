@@ -41,13 +41,14 @@ class ProspectController extends Controller
             'status' => Customer::PROSPECT,
             'approval_status'  => Customer::ONTIME,
             'created_by' => Auth::user()->id,
+            'started_at' => Carbon::now()->toDateTimeString()
         ]);
 
         return redirect()->route('prospects.index');
     }
 
     public function edit(Customer $prospect){
-        if($prospect->status == 1){
+        if($prospect->status < 4){
             return view('prospects.edit', compact('prospect'));
         }else{
             $customer = BranchOffice::where('customer_id','=', $prospect->id)->firstOrFail();
@@ -56,15 +57,37 @@ class ProspectController extends Controller
         
     }
 
+    public function reject(Request $request){
+        $request->validate(['comment' => 'required']);
+
+        //dd($request->comment);
+        $prospect = Customer::find($request->id);
+        $prospect->comments = $request->comment;
+        //dd($prospect->comments);
+        $prospect->status = Customer::REJECTED;
+        $prospect->update();
+        return view('prospects.index');
+
+    }
+
     public function update(Request $request, Customer $prospect){
         $request->validate([
             'name' => 'required',
             'contact' => 'required',
-            'email' => 'email:rfc,dns'
+            'email' => 'email:rfc'
         ]);
-
+        $prospect->status = Customer::PROSPECT;
+        $prospect->started_at = Carbon::now()->toDateTimeString();
         $prospect->update($request->all());
 
         return redirect()->route('prospects.index');
+    }
+
+    public function approve($id){
+        $prospect = Customer::find($id);
+        $prospect->status = Customer::APPROVED;
+        $prospect->save();
+
+        return view('prospects.index');
     }
 }

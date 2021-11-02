@@ -23,13 +23,15 @@ class CreateCustomersTable extends Migration
             $table->string('mobile');
             $table->string('phone');
             $table->string('email');
-            $table->enum('status',[Customer::PROSPECT, Customer::PENDING, Customer::CLIENT, Customer::SUSPENDED]);
+            $table->enum('status',[Customer::PROSPECT, Customer::REJECTED, Customer::PENDING, Customer::CLIENT, Customer::SUSPENDED]);
             $table->enum("approval_status", [Customer::ONTIME, Customer::ALERTED, Customer::EXPIRED]);
+            $table->dateTime('started_at');
             $table->dateTime('approved_at')->nullable();
             $table->unsignedBigInteger(('created_by'));
             $table->foreign('created_by')->references(('id'))->on('users');            
             $table->unsignedBigInteger(('approved_by'))->nullable();
             $table->foreign('approved_by')->references(('id'))->on('users');
+            $table->text('comments')->nullable();
             $table->timestamps();
         });
     }

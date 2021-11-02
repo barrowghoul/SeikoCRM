@@ -34,5 +34,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('branches', BranchOfficeController::class)->names('branches');
     Route::get('convert2client/{customer_id}', [BranchOfficeController::class, 'new'])->name('client.new');
     Route::get('approvecustomer/{customer_id}', [CustomerController::class, 'approve'])->name('client.approve');
+    Route::get('approveprospect/{prospect_id}', [ProspectController::class, 'approve'])->name('prospect.approve');
+    Route::post('rejectprospect', [ProspectController::class, 'reject'])->name('prospect.reject');
 });
 

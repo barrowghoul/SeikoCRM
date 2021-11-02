@@ -2,12 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Customer;
-use Carbon\Carbon;
-use App\Models\User;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CustomerFactory extends Factory
+class ProspectFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
@@ -32,8 +30,7 @@ class CustomerFactory extends Factory
             'email' => $this->faker->unique()->email(),
             'status' =>$this->faker->randomElement([1,2]),
             'approval_status' =>$this->faker->randomElement([1,2,3]),
-            'started_at' => Carbon::now()->toDateTimeString(),
-            'created_by' => User::factory(),            
+            'created_by' => User::factory(),  
         ];
     }
 }
