@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ProspectApprovedMailable;
+use App\Mail\ProspectCreatedMailable;
+use App\Mail\ProspectRejectedMailable;
 use App\Models\BranchOffice;
 use App\Models\Customer;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Spatie\Permission\Models\Role;
 
 class ProspectController extends Controller
 {
@@ -31,7 +37,7 @@ class ProspectController extends Controller
             'email' => 'email:rfc'
         ]);
     
-        Customer::create([
+        $prospect = Customer::create([
             'name' => strtoupper($request->name),
             'contact' => strtoupper($request->contact),
             'address' => strtoupper($request->address),
@@ -43,6 +49,10 @@ class ProspectController extends Controller
             'created_by' => Auth::user()->id,
             'started_at' => Carbon::now()->toDateTimeString()
         ]);
+
+        $authorizers = User::select('email')->whereHas("roles", function($q){$q->where("name","Auxiliar Administrativo");})->get();
+        $mail = new ProspectCreatedMailable($prospect);
+        Mail::to($authorizers)->send($mail);
 
         return redirect()->route('prospects.index');
     }
@@ -66,6 +76,11 @@ class ProspectController extends Controller
         //dd($prospect->comments);
         $prospect->status = Customer::REJECTED;
         $prospect->update();
+
+        $authorizers = User::select('email')->where("id", $prospect->created_by)->get();
+        $mail = new ProspectRejectedMailable($prospect);
+        Mail::to($authorizers)->send($mail);
+
         return view('prospects.index');
 
     }
@@ -87,6 +102,10 @@ class ProspectController extends Controller
         $prospect = Customer::find($id);
         $prospect->status = Customer::APPROVED;
         $prospect->save();
+
+        $authorizers = User::select('email')->where("id", $prospect->created_by)->get();
+        $mail = new ProspectApprovedMailable($prospect);
+        Mail::to($authorizers)->send($mail);
 
         return view('prospects.index');
     }

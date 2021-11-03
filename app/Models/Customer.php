@@ -25,4 +25,8 @@ class Customer extends Model
     public function brach_offices(){
         return $this->hasMany(BranchOffice::class);
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

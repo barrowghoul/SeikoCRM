@@ -53,4 +53,8 @@ class User extends Authenticatable
         return 'http://i.pravatar.cc/200';
     }
 
+    public function customers(){
+        return $this->hasMany(Customer::class);
+    }
+
 }
