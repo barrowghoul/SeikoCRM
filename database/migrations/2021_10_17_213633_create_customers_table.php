@@ -30,8 +30,8 @@ class CreateCustomersTable extends Migration
             $table->unsignedBigInteger(('created_by'));
             $table->foreign('created_by')->references(('id'))->on('users');            
             $table->unsignedBigInteger(('approved_by'))->nullable();
-            $table->foreign('approved_by')->references(('id'))->on('users');
-            $table->text('comments')->nullable();
+            //$table->foreign('approved_by')->references(('id'))->on('users');
+            
             $table->timestamps();
         });
     }

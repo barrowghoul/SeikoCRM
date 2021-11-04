@@ -57,4 +57,8 @@ class User extends Authenticatable
         return $this->hasMany(Customer::class);
     }
 
+    public function prospect_comments(){
+        return $this->hasMany(ProspectComment::class);
+    }
+
 }

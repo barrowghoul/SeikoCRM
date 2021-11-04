@@ -7,10 +7,12 @@ use App\Mail\ProspectCreatedMailable;
 use App\Mail\ProspectRejectedMailable;
 use App\Models\BranchOffice;
 use App\Models\Customer;
+use App\Models\ProspectComment;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 
@@ -58,8 +60,9 @@ class ProspectController extends Controller
     }
 
     public function edit(Customer $prospect){
+        $comments = ProspectComment::where('customer_id','=' , $prospect->id)->orderBy('created_at')->get();
         if($prospect->status < 4){
-            return view('prospects.edit', compact('prospect'));
+            return view('prospects.edit', compact('prospect','comments'));
         }else{
             $customer = BranchOffice::where('customer_id','=', $prospect->id)->firstOrFail();
             return view('prospects.edit', compact('prospect','customer'));
@@ -68,14 +71,22 @@ class ProspectController extends Controller
     }
 
     public function reject(Request $request){
-        $request->validate(['comment' => 'required']);
+        $request->validate(['comments' => 'required']);
 
-        //dd($request->comment);
+        
         $prospect = Customer::find($request->id);
-        $prospect->comments = $request->comment;
+        //$prospect->comments = $request->comment;
         //dd($prospect->comments);
-        $prospect->status = Customer::REJECTED;
-        $prospect->update();
+        DB::transaction(function () use($request, $prospect) {
+            ProspectComment::create([
+                'customer_id' => $prospect->id,
+                'user_id' => Auth::user()->id,
+                'comments' => $request->comments
+            ]);
+            $prospect->status = Customer::REJECTED;
+            $prospect->update();
+        });
+        
 
         $authorizers = User::select('email')->where("id", $prospect->created_by)->get();
         $mail = new ProspectRejectedMailable($prospect);
