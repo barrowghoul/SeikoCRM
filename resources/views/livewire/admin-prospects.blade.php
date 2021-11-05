@@ -36,6 +36,7 @@
                                 <table class="table align-items-center table-flush">
                                     <thead class="thead-light">
                                         <tr>
+                                            <th scope="col">{{ __('Folio') }}</th>
                                             <th scope="col">{{ __('Name') }}</th>
                                             <th scope="col">{{ __('Email') }}</th>
                                             <th scope="col">{{ __('Status') }}</th>
@@ -54,6 +55,7 @@
                                             @else
                                                 </tr>
                                             @endif
+                                                <td>{{ $prospect->id }}</td>
                                                 <td>{{ $prospect->name }}</td>
                                                 <td>
                                                     <a href="mailto:{{ $prospect->email }}">{{ $prospect->email }}</a>
