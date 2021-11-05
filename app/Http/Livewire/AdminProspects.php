@@ -15,7 +15,7 @@ class AdminProspects extends Component
     
     public function render()
     {
-        if(Auth::user()->hasRole('Administrador')){
+        if(Auth::user()->hasRole('Administrador') || Auth::user()->hasRole('Auxiliar Administrativo')){
             $prospects = Customer::where('name', 'LIKE', '%' .  $this->search . '%' )->where(function ($query){
                 $query->where('status', '<=', 3);
             })

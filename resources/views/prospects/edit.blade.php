@@ -18,10 +18,12 @@
                                 </div>
                                 <div class="col-4 text-right">
                                     <a href="{{ route('prospects.index') }}" class="btn btn-sm btn-primary">{{ __('Back') }}</a>
-                                    @can('aprobar clientes')
+                                    @can('rechazar prospectos')
                                         @if($prospect->status == 1)
                                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">{{ _('Rechazar') }}</button>
                                         @endif
+                                    @endcan
+                                    @can('aprobar prospectos')
                                         @if($prospect->status < 3)
                                             <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#approvalModal">{{ _('Aprobar') }}</button>
                                         @endif

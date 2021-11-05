@@ -40,7 +40,7 @@
                                             <th scope="col">{{ __('Email') }}</th>
                                             <th scope="col">{{ __('Status') }}</th>
                                             <th scope="col">{{ __('Creation Date') }}</th>
-                                            @can('editar clientes', App\User::class)
+                                            @can('editar prospectos', App\User::class)
                                                 <th scope="col"></th>
                                             @endcan
                                         </tr>
@@ -70,7 +70,7 @@
                                                 <td>{{ $prospect->started_at }}</td>
                                                 @can('editar prospectos')
                                                     <td class="text-right">
-                                                        @if (auth()->user()->can('editar usuarios') || auth()->user()->can('suspender usuarios'))
+                                                        @if (auth()->user()->can('editar prospectos') || auth()->user()->can('rechazar prospectos'))
                                                             <div class="dropdown">
                                                                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                     <i class="nc-icon nc-bullet-list-67"></i>
@@ -85,7 +85,7 @@
                                                                                 <a class="dropdown-item" href="{{ route('client.new', $prospect->id) }}">{{ __('Convert to Client') }}</a>
                                                                             @endif
                                                                         @endcan
-                                                                        @can('aprobar clientes')
+                                                                        @can('aprobar prospectos')
                                                                             @if($prospect->status == 2)                                                                                
                                                                                 <button class="dropdown-item" data-toggle="modal" data-target="#approveModal">
                                                                                     {{ __('Approve Prospect') }}
@@ -116,16 +116,7 @@
                                                                                     </div>
                                                                                     <!--    end small modal -->
                                                                             @endif
-                                                                        @endcan
-                                                                        @can('suspender usuarios')
-                                                                            <form action="{{ route('prospects.destroy', $prospect) }}" method="POST">
-                                                                                @csrf
-                                                                                @method('delete')
-                                                                                <button type="button" class="dropdown-item" onclick="confirm('¿Desea aprobar este prospecto?') ? this.parentElement.submit() : ''">
-                                                                                    {{ __('Suspend') }}
-                                                                                </button>
-                                                                            </form>
-                                                                        @endcan
+                                                                        @endcan                                                                        
                                                                     @else
                                                                         <a class="dropdown-item" href="#">{{ __('Edit') }}</a>
                                                                     @endif
