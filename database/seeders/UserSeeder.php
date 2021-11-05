@@ -26,13 +26,13 @@ class UserSeeder extends Seeder
             'email' => 'omar.garcia@seikosoluciones.com',
             'password' => bcrypt('seiko123')
         ]);
-        $user->assignRole('Administrador');
+        $user->assignRole('Auxiliar Administrativo');
         $user = User::create([
             'name' => 'Nestor Barcenas',
             'email' => 'nestor.barcenas@seikosoluciones.com',
             'password' => bcrypt('seiko123')
         ]);
-        $user->assignRole('Administrador');
+        $user->assignRole('Ventas');
 
         $user = User::create([
             'name' => 'User',

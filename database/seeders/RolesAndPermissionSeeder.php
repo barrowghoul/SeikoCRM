@@ -36,5 +36,7 @@ class RolesAndPermissionSeeder extends Seeder
         //Crear Roles
         $role = Role::create(['name' => 'Administrador', 'description' => 'Acceso a todos los módulos del sistema, puede crear, editar y/o eliminar registros de sistema.'])->givePermissionTo(Permission::all());
         $role = Role::create(['name' => 'Compras', 'description' => 'Acceso al módulo de compras y todas las operaciones relacionadas con el departamento'])->givePermissionTo(['ver usuarios','crear usuarios', 'editar usuarios']);        
+        $role = Role::create(['name' => 'Auxiliar Administrativo', 'description' => 'Auxiliar Admin'])->givePermissionTo(['ver prospectos','crear prospectos', 'editar prospectos','aprobar clientes']);        
+        $role = Role::create(['name' => 'Ventas', 'description' => 'Vetnas'])->givePermissionTo(['ver prospectos','crear prospectos', 'editar prospectos']);        
     }
 }
