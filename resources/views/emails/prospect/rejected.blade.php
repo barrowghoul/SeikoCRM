@@ -124,7 +124,7 @@ a[x-apple-data-detectors] {
   <br>
   Rechazado por: {{ $asigned->name}}
   <br>
-  Razón: {{ $prospect->comments}}
+  Razón: {{ $comments}}
   <br><br>
 </div>
 

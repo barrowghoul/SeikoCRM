@@ -87,9 +87,9 @@ class ProspectController extends Controller
             $prospect->update();
         });
         
-
+        $comments = $request->comments;
         $authorizers = User::select('email')->where("id", $prospect->created_by)->get();
-        $mail = new ProspectRejectedMailable($prospect);
+        $mail = new ProspectRejectedMailable($prospect, $comments);
         Mail::to($authorizers)->send($mail);
 
         return view('prospects.index');
@@ -111,7 +111,7 @@ class ProspectController extends Controller
 
     public function approve($id){
         $prospect = Customer::find($id);
-        $prospect->status = Customer::APPROVED;
+        $prospect->status = 3;
         $prospect->save();
 
         $authorizers = User::select('email')->where("id", $prospect->created_by)->get();

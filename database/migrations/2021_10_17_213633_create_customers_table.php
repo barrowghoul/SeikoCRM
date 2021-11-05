@@ -23,7 +23,7 @@ class CreateCustomersTable extends Migration
             $table->string('mobile');
             $table->string('phone');
             $table->string('email');
-            $table->enum('status',[Customer::PROSPECT, Customer::REJECTED, Customer::PENDING, Customer::CLIENT, Customer::SUSPENDED]);
+            $table->enum('status',[Customer::PROSPECT, Customer::REJECTED, Customer::APPROVED, Customer::PENDING,Customer::CLIENT, Customer::SUSPENDED]);
             $table->enum("approval_status", [Customer::ONTIME, Customer::ALERTED, Customer::EXPIRED]);
             $table->dateTime('started_at');
             $table->dateTime('approved_at')->nullable();

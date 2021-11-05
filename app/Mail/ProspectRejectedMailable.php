@@ -12,16 +12,17 @@ class ProspectRejectedMailable extends Mailable
 {
     use Queueable, SerializesModels;
     public $subject = "Su solicitud de nuevo prospecto ha sido rechazada";
-    public $prospect, $asigned;
+    public $prospect, $asigned, $comments;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($prospect)
+    public function __construct($prospect, $comments)
     {
         $this->prospect = $prospect;
+        $this->comments = $comments;
         $this->asigned = User::find($prospect->created_by);
     }
 
