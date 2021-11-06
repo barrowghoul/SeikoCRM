@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CustomerTask;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        CustomerTask::class
     ];
 
     /**
@@ -25,6 +26,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('customer:task')->everyMinute()
+                                        //->unlessBetween("08:00", "19:30")
+                                        ->days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY, Schedule::SATURDAY])
+                                        ->between('8:00','21:00');
     }
 
     /**

@@ -22,6 +22,19 @@ class UserSeeder extends Seeder
         $user->assignRole('Administrador');
 
         $user = User::create([
+            'name' => 'Omar Garcia',
+            'email' => 'omar.garcia@seikosoluciones.com',
+            'password' => bcrypt('seiko123')
+        ]);
+        $user->assignRole('Auxiliar Administrativo');
+        $user = User::create([
+            'name' => 'Nestor Barcenas',
+            'email' => 'nestor.barcenas@seikosoluciones.com',
+            'password' => bcrypt('seiko123')
+        ]);
+        $user->assignRole('Ventas');
+
+        $user = User::create([
             'name' => 'User',
             'email' => 'user@seikosoluciones.com',
             'password' => bcrypt('3r1kD5n13l')

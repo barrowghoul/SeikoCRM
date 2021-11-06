@@ -46,12 +46,13 @@ class UserController extends Controller
     public function update(Request $request, User $user){
         $request->validate([
             'name' => 'required',
-            'email' => 'email:rfc,dns|unique:App\Models\User,email',
+            'email' => 'email:rfc,dns|unique:App\Models\User,email,'.$user->id,
             'password' => 'required|confirmed'
             
         ]);
 
         $user->update($request->all());
+        $user->assignRole($request->role_id);
         return redirect()->route('users.index');
     }
 }

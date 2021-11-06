@@ -1,8 +1,8 @@
 @extends('layouts.main', [
     'title' => __('Role Management'),
     'class' => '',
-    'folderActive' => 'laravel-examples',
-    'elementActive' => 'role'
+    'folderActive' => 'settings',
+    'elementActive' => 'roleElement'
 ])
 
 @section('content')

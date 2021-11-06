@@ -18,15 +18,10 @@
                     <div class="col-lg-8 col-md-9">
                         <h2 class="text-white">{{ __('Welcome to Seiko CRM') }}</h2>
 
-                        <p class="text-lead text-light mt-3 mb-0">
-                            {{ __('Log in and see how you can save more than 150 hours of work with CRUDs for managing: #users, #roles, #items, #categories, #tags and more.') }}
-                            @include('alerts.migrations_check')
-                        </p>
+                        
                     </div>
                     <div class="col-lg-5 col-md-6">
-                        <h4 class="text-lead text-white mt-5 mb-0">
-                            <strong>{{ __('You can log in with 3 user types:') }}</strong>
-                        </h4>
+                    
                         
                     </div>
                 </div>
@@ -49,7 +44,7 @@
                                         <i class="nc-icon nc-single-02"></i>
                                     </span>
                                 </div>
-                                <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email') }}" type="email" name="email" value="{{ old('email') ?? 'admin@paper.com' }}" required autofocus>
+                                <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email') }}" type="email" name="email" required autofocus>
                                 
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -64,7 +59,7 @@
                                         <i class="nc-icon nc-single-02"></i>
                                     </span>
                                 </div>
-                                <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="{{ __('Password') }}" type="password" value="secret" required>
+                                <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="{{ __('Password') }}" type="password" required>
                                 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
