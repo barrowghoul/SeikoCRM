@@ -57,7 +57,7 @@
                     <p>{{ __('Dashboard') }}</p>
                 </a>
             </li>
-            @if (Auth::user()->hasPermissionTo('ver prospectos') || Auth::user()->hasPermissionTo('ver clientes'))
+            @if (Auth::user()->hasPermissionTo('ver prospectos') || Auth::user()->hasPermissionTo('ver clientes') || Auth::user()->hasPermissionTo('ver diagnosticos'))
                 <li class="{{ $folderActive == 'customers' ? 'active' : '' }}">
                     <a data-toggle="collapse" aria-expanded="true" href="#customerElement">
                         <i class="nc-icon nc-user"></i>
@@ -76,6 +76,14 @@
                                     </a>
                                 </li>
                             @endif
+                            @if(Auth::user()->hasPermissionTo('ver diagnosticos'))
+                                <li class="{{ $elementActive == 'diagnosticElement' ? 'active' : '' }}">
+                                    <a href="{{ route('diagnostics.index') }}">
+                                        <span class="sidebar-mini-icon">{{ __('D') }}</span>
+                                        <span class="sidebar-normal">{{ __('Diagnostics') }}</span>
+                                    </a>
+                                </li>
+                            @endif                            
                             @if (Auth::user()->hasPermissionTo('ver clientes'))
                                 <li class="{{ $elementActive == 'customerElement' ? 'active' : '' }}">
                                     <a href="{{ route('customers.index') }}">

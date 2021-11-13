@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Http\Controllers\ProspectController;
+use App\Models\Diagnostic;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesAndPermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(CustomerSeeder::class);
+        Diagnostic::factory(20)->create();
     }
 }

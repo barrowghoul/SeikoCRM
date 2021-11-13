@@ -34,11 +34,16 @@ class RolesAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'ver prospectos', 'description' => 'Permite acceso a visualizar el listado de prospectos de clientes']);
         Permission::create(['name' => 'editar prospectos', 'description' => 'Permite acceso a editar la informacón de prospectos']);
         Permission::create(['name' => 'crear prospectos', 'description' => 'Permite la creació de prospectos']);
+        Permission::create(['name' => 'ver diagnosticos', 'description' => 'Permite ver el listado de diagnósticos de clientes']);
+        Permission::create(['name' => 'crear diagnosticos', 'description' => 'Permite crear diagnósticos de clientes']);
+        Permission::create(['name' => 'editar diagnosticos', 'description' => 'Permite editar diagnósticos de clientes']);
+        Permission::create(['name' => 'aprobar diagnosticos', 'description' => 'Permite aprobar diagnósticos de clientes']);
 
         //Crear Roles
         $role = Role::create(['name' => 'Administrador', 'description' => 'Acceso a todos los módulos del sistema, puede crear, editar y/o eliminar registros de sistema.'])->givePermissionTo(Permission::all());
         $role = Role::create(['name' => 'Compras', 'description' => 'Acceso al módulo de compras y todas las operaciones relacionadas con el departamento'])->givePermissionTo(['ver usuarios','crear usuarios', 'editar usuarios']);        
         $role = Role::create(['name' => 'Auxiliar Administrativo', 'description' => 'Auxiliar Admin'])->givePermissionTo(['ver prospectos','crear prospectos', 'editar prospectos','aprobar prospectos', 'rechazar prospectos']);        
-        $role = Role::create(['name' => 'Ventas', 'description' => 'Ventas'])->givePermissionTo(['ver prospectos','crear prospectos', 'editar prospectos']);        
+        $role = Role::create(['name' => 'Ventas', 'description' => 'Ventas'])->givePermissionTo(['ver prospectos','crear prospectos', 'editar prospectos', 'ver diagnosticos', 'crear diagnosticos', 'editar diagnosticos']);        
+        $role = Role::create(['name' => 'Gerente de Ventas', 'description' => 'Ventas'])->givePermissionTo(['ver prospectos','crear prospectos', 'editar prospectos', 'ver diagnosticos', 'aprobar diagnosticos']);
     }
 }
