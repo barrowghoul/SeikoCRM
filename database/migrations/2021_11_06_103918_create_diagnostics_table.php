@@ -22,10 +22,11 @@ class CreateDiagnosticsTable extends Migration
             $table->foreign('created_by')->references('id')->on('users');
             $table->enum('status',[Diagnostic::PENDING, Diagnostic::REJECTED, Diagnostic::APPROVED])->default(Diagnostic::PENDING);
             $table->enum('approval_status',[Diagnostic::ONTIME, Diagnostic::ALERTED, Diagnostic::EXPIRED])->default(Diagnostic::PENDING);
-            $table->string('legal_name');
+            $table->string('legal_name')->nullable();
+            $table->text('other_names')->nullable();
             $table->integer('employee_number')->nullable();
-            $table->decimal('annual_budget', 8,2)->default(0);
-            $table->decimal('sales_volume', 8 , 2)->default(0); 
+            $table->decimal('annual_budget', 10,2)->default('0.00');
+            $table->decimal('sales_volume', 10 , 2)->default('0.00'); 
             $table->string('purchase_criteria')->nullable();
             $table->text('branches');
             $table->text('brands');
@@ -41,6 +42,7 @@ class CreateDiagnosticsTable extends Migration
             $table->text('maintenance')->nullable();
             $table->text('engineering')->nullable();
             $table->text('quality')->nullable();
+            $table->dateTime('started_at');
             $table->timestamps();
         });
     }

@@ -21,4 +21,8 @@ class Diagnostic extends Model
     public function customer(){
         return $this->belongsTo(Customer::class);
     }
+
+    public function comments(){
+        return $this->hasMany(DiagnosticComment::class);
+    }
 }

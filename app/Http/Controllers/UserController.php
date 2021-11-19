@@ -51,7 +51,10 @@ class UserController extends Controller
             
         ]);
 
-        $user->update($request->all());
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->update();
         $user->assignRole($request->role_id);
         return redirect()->route('users.index');
     }

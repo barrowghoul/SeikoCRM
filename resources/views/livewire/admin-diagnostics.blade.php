@@ -14,14 +14,8 @@
                                             
                                         </div>
                                     </div>
-                                </div>
-                                
-                            </div>   
-                            @can('crear diagnosticos', App\User::class)
-                                    <div class="col-4 text-right">
-                                        <a href="{{ route('diagnostics.create') }}" class="btn btn-sm btn-primary">{{ __('Add Diagnostic') }}</a>
-                                    </div>
-                                @endcan                         
+                                </div>                                
+                            </div>                                                    
                         </div>
                     </div>
 
@@ -55,8 +49,8 @@
                                                 </tr>
                                             @endif
                                                 <td>{{ $diagnostic->id }}</td>
-                                                <td>{{ $diagnostic->customer->name }}</td>                                                
-                                                <td>{{ $diagnostic->created_by}}</td>
+                                                <td>{{ $diagnostic->customer_name }}</td>                                                
+                                                <td>{{ $diagnostic->user_name}}</td>
                                                 <td>
                                                     @if($diagnostic->status == 1)
                                                         PENDIENTE
@@ -69,7 +63,7 @@
                                                 <td>{{ $diagnostic->created_at }}</td>
                                                 @can('editar diagnosticos')
                                                     <td class="text-right">
-                                                        @if (auth()->user()->can('editar diagnosticos') || auth()->user()->can('rechazar diagnosticos'))
+                                                        @if (auth()->user()->can('editar diagnosticos') || auth()->user()->can('aprobar diagnosticos'))
                                                             <div class="dropdown">
                                                                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                     <i class="nc-icon nc-bullet-list-67"></i>
@@ -77,45 +71,8 @@
                                                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                                                     @if (Auth::user()->hasPermissionTo('editar diagnosticos'))
                                                                         @can('editar diagnosticos')                                                                                
-                                                                            <a class="dropdown-item" href="{{ route('diagnostics.edit', $diagnostic) }}">{{ __('Edit') }}</a>
-                                                                        @endcan
-                                                                        @can('crear clientes')
-                                                                            @if($diagnostic->status == 1)
-                                                                                <a class="dropdown-item" href="{{ route('client.new', $diagnostic->id) }}">{{ __('Convert to Client') }}</a>
-                                                                            @endif
-                                                                        @endcan
-                                                                        @can('aprobar diagnosticos')
-                                                                            @if($diagnostic->status == 2)                                                                                
-                                                                                <button class="dropdown-item" data-toggle="modal" data-target="#approveModal">
-                                                                                    {{ __('Approve diagnostic') }}
-                                                                                  </button>
-                                                                                  <!-- small modal -->
-                                                                                    <div class="modal fade modal-primary" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                                                        <div class="modal-dialog modal-sm">
-                                                                                        <div class="modal-content">
-                                                                                            <div class="modal-header justify-content-center">
-                                                                                            <div class="modal-profile mx-auto">
-                                                                                                <i class="nc-icon nc-bulb-63"></i>
-                                                                                            </div>
-                                                                                            </div>
-                                                                                            <div class="modal-body">
-                                                                                            <p>¿Desea aprobar la solicitud de creación del diagnostico?</p>
-                                                                                            </div>
-                                                                                            <div class="modal-footer">
-                                                                                            <div class="left-side">
-                                                                                                <a class="btn btn-link" href="{{ route('client.approve', $diagnostic->id) }}">{{ __('Approve') }}</a>
-                                                                                            </div>
-                                                                                            <div class="divider"></div>
-                                                                                            <div class="right-side">
-                                                                                                <button type="button" class="btn btn-link btn-danger" data-dismiss="modal">{{ __('Close') }}</button>
-                                                                                            </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <!--    end small modal -->
-                                                                            @endif
-                                                                        @endcan                                                                        
+                                                                            <a class="dropdown-item" href="{{ route('diagnostics.edit', $diagnostic->id) }}">{{ __('Edit') }}</a>
+                                                                        @endcan                                                                                                                                                                                                                   
                                                                     @else
                                                                         <a class="dropdown-item" href="#">{{ __('Edit') }}</a>
                                                                     @endif

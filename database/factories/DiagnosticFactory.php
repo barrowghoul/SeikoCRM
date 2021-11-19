@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Customer;
 use App\Models\Diagnostic;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DiagnosticFactory extends Factory
@@ -32,6 +33,7 @@ class DiagnosticFactory extends Factory
             'competitors' => $this->faker->paragraph(),
             'competitor_products' => $this->faker->paragraph(),
             'products' => $this->faker->paragraph(),
+            'started_at' => Carbon::now()->toDateTimeString(),
         ];
     }
 }

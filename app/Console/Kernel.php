@@ -30,6 +30,11 @@ class Kernel extends ConsoleKernel
                                         //->unlessBetween("08:00", "19:30")
                                         ->days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY, Schedule::SATURDAY])
                                         ->between('8:00','21:00');
+                                        
+        $schedule->command('diagnostic:task')->everyMinute()
+                                        //->unlessBetween("08:00", "19:30")
+                                        ->days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY, Schedule::SATURDAY])
+                                        ->between('8:00','21:00');
     }
 
     /**

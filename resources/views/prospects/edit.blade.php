@@ -28,6 +28,11 @@
                                             <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#approvalModal">{{ _('Aprobar') }}</button>
                                         @endif
                                     @endcan                                    
+                                    @if($prospect->status ==3)                                        
+                                        @can('crear diagnosticos')
+                                            <a href="{{ route('diagnostics.create', $prospect->id) }}" class="btn btn-sm btn-success" >{{ _('Add Diagnostic') }}</a>
+                                        @endcan
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -174,7 +179,6 @@
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('put')
-                                            <input id="invisible_id" name="customer_id" type="hidden" value="{{$prospect->id}}">
                                             <h6 class="heading-small text-muted mb-4">{{ __('Customer information') }}</h6>
                                             <div class="pl-lg-4">
                                                 <div class="form-group">
@@ -324,8 +328,8 @@
             </form>
           </div>
         </div>
-      </div>
-      <div class="modal" tabindex="-1" id="approvalModal" role="dialog">
+    </div>
+    <div class="modal" tabindex="-1" id="approvalModal" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">                      
                 <div class="modal-header">
@@ -343,7 +347,7 @@
                 </div>
           </div>
         </div>
-      </div>
+    </div>
 @endsection
 
 
