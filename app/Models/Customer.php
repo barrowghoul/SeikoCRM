@@ -11,7 +11,7 @@ class Customer extends Model
     
     const PROSPECT = 1;
     const REJECTED = 2;
-    const APPROVED= 3;
+    const APPROVED = 3;
     const PENDING = 4;
     const CLIENT = 5;
     const SUSPENDED = 6;

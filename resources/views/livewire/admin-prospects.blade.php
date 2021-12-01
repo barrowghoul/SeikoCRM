@@ -82,11 +82,7 @@
                                                                         @can('editar prospectos')                                                                                
                                                                             <a class="dropdown-item" href="{{ route('prospects.edit', $prospect) }}">{{ __('Edit') }}</a>
                                                                         @endcan
-                                                                        @can('crear clientes')
-                                                                            @if($prospect->status == 1)
-                                                                                <a class="dropdown-item" href="{{ route('client.new', $prospect->id) }}">{{ __('Convert to Client') }}</a>
-                                                                            @endif
-                                                                        @endcan
+                                                                        
                                                                         @can('aprobar prospectos')
                                                                             @if($prospect->status == 2)                                                                                
                                                                                 <button class="dropdown-item" data-toggle="modal" data-target="#approveModal">

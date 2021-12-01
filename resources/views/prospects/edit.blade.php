@@ -27,7 +27,12 @@
                                         @if($prospect->status < 3)
                                             <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#approvalModal">{{ _('Aprobar') }}</button>
                                         @endif
-                                    @endcan                                    
+                                    @endcan      
+                                    @can('crear clientes')
+                                        @if($prospect->status == 3)
+                                            <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#convertModal">{{ _('Convert to Client') }}</button>
+                                        @endif
+                                    @endcan                                   
                                     @if($prospect->status ==3)                                        
                                         @can('crear diagnosticos')
                                             <a href="{{ route('diagnostics.create', $prospect->id) }}" class="btn btn-sm btn-success" >{{ _('Add Diagnostic') }}</a>
@@ -343,6 +348,25 @@
                 </div>
                 <div class="modal-footer">
                 <a href="{{ route('prospect.approve', $prospect->id) }}" class="btn btn-primary">{{ __('Approve')}}</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
+                </div>
+          </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" id="convertModal" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">                      
+                <div class="modal-header">
+                <h5 class="modal-title">{{ __('Convert')}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">                
+                    ¿Desea convertir este prospecto en cliente??          
+                </div>
+                <div class="modal-footer">
+                <a href="{{ route('client.new', $prospect->id) }}" class="btn btn-primary">{{ __('Convert')}}</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
                 </div>
           </div>

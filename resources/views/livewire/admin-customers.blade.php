@@ -48,9 +48,9 @@
                                                     <a href="mailto:{{ $customer->email }}">{{ $customer->email }}</a>
                                                 </td>
                                                 <td>
-                                                    @if($customer->status == 3)
+                                                    @if($customer->status == 5)
                                                         {{ __('Active') }}
-                                                    @else
+                                                    @elseif($customer->status == 6)
                                                         {{ __('Suspended') }}
                                                     @endif
                                                 </td>
