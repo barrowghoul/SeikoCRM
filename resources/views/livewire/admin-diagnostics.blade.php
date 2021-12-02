@@ -1,5 +1,4 @@
 <div>
-    
     <div class="container-fluid mt--6">
         <div class="row">
             <div class="col">
@@ -7,7 +6,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">{{ __('Customers') }}</h3>
+                                <h3 class="mb-0">{{ __('Diagnostics') }}</h3>
                                 <div class="row">                                        
                                     <div class="col-sm-10">
                                         <div class="form-group">
@@ -15,9 +14,8 @@
                                             
                                         </div>
                                     </div>
-                                </div>
-                                
-                            </div>                            
+                                </div>                                
+                            </div>                                                    
                         </div>
                     </div>
 
@@ -25,56 +23,59 @@
                         @include('alerts.success')
                         @include('alerts.errors')
                     </div>
-                    @if ($customers->count())
+                    @if ($diagnostics->count())
                         <div class="card-body">
                             <div class="table-responsive py-4">
                                 <table class="table align-items-center table-flush">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th scope="col">{{ __('Name') }}</th>
-                                            <th scope="col">{{ __('Email') }}</th>
+                                            <th scope="col">{{ __('Folio') }}</th>
+                                            <th scope="col">{{ __('Customer') }}</th>
+                                            <th scope="col">{{ __('Created By') }}</th>
                                             <th scope="col">{{ __('Status') }}</th>
                                             <th scope="col">{{ __('Creation Date') }}</th>
-                                            @can('editar clientes', App\User::class)
+                                            @can('editar diagnosticos', App\User::class)
                                                 <th scope="col"></th>
                                             @endcan
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($customers as $customer)
-                                            <tr>                                                
-                                                <td>{{ $customer->name }}</td>
+                                        @foreach ($diagnostics as $diagnostic)
+                                            @if($diagnostic->approval_status == 2 && $diagnostic->status == 1)
+                                                <tr class="table-warning">                                                
+                                            @elseif($diagnostic->approval_status == 3 && $diagnostic->status == 1)
+                                                <tr class="table-danger">
+                                            @else
+                                                </tr>
+                                            @endif
+                                                <td>{{ $diagnostic->id }}</td>
+                                                <td>{{ $diagnostic->customer_name }}</td>                                                
+                                                <td>{{ $diagnostic->user_name}}</td>
                                                 <td>
-                                                    <a href="mailto:{{ $customer->email }}">{{ $customer->email }}</a>
-                                                </td>
-                                                <td>
-                                                    @if($customer->status == 5)
-                                                        {{ __('Active') }}
-                                                    @elseif($customer->status == 6)
-                                                        {{ __('Suspended') }}
+                                                    @if($diagnostic->status == 1)
+                                                        PENDIENTE
+                                                    @elseif($diagnostic->status == 2)
+                                                        RECHAZADO
+                                                    @else
+                                                        APROBADO
                                                     @endif
                                                 </td>
-                                                <td>{{ $customer->created_at->format('d/m/Y H:i') }}</td>
-                                                @can('editar clientes')
+                                                <td>{{ $diagnostic->created_at }}</td>
+                                                @can('editar diagnosticos')
                                                     <td class="text-right">
-                                                        @if (auth()->user()->can('editar usuarios') || auth()->user()->can('suspender usuarios'))
+                                                        @if (auth()->user()->can('editar diagnosticos') || auth()->user()->can('aprobar diagnosticos'))
                                                             <div class="dropdown">
                                                                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                     <i class="nc-icon nc-bullet-list-67"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                                        @can('editar clientes')
-                                                                            <a class="dropdown-item" href="{{ route('customers.edit', $customer) }}">{{ __('Edit') }}</a>
-                                                                        @endcan
-                                                                        @can('suspender usuarios')
-                                                                            <form action="{{ route('customers.destroy', $customer) }}" method="POST">
-                                                                                @csrf
-                                                                                @method('delete')
-                                                                                <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
-                                                                                    {{ __('Suspend') }}
-                                                                                </button>
-                                                                            </form>
-                                                                        @endcan
+                                                                    @if (Auth::user()->hasPermissionTo('editar diagnosticos'))
+                                                                        @can('editar diagnosticos')                                                                                
+                                                                            <a class="dropdown-item" href="{{ route('diagnostics.edit', $diagnostic->id) }}">{{ __('Edit') }}</a>
+                                                                        @endcan                                                                                                                                                                                                                   
+                                                                    @else
+                                                                        <a class="dropdown-item" href="#">{{ __('Edit') }}</a>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         @endif
@@ -88,7 +89,7 @@
                         </div>
                     
                         <div class="card-footer">
-                            {{ $customers->links() }}
+                            {{ $diagnostics->links() }}
                         </div>
                     @else
                         <div class="card-body">
@@ -96,6 +97,7 @@
                         </div>
                     @endif                        
                 </div>
+                
             </div>
         </div>
     </div>

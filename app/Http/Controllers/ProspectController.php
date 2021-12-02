@@ -30,6 +30,7 @@ class ProspectController extends Controller
     }
 
     public function store(Request $request){
+    
         $request->validate([
             'name' => 'required|unique:customers',
             'address' => 'required',

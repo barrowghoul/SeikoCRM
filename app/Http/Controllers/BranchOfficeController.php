@@ -49,12 +49,12 @@ class BranchOfficeController extends Controller
         ]);
 
         $customer= Customer::find($request->customer_id);
-        if($customer->status == 1){
-            $customer->status = 2;
+        if($customer->status == 3){
+            $customer->status = 5;
             $customer->update();
         }            
 
-        return redirect()->back();
+        return view('customer.index');
     }
 
     public function update(Request $request, BranchOffice $branch){        
