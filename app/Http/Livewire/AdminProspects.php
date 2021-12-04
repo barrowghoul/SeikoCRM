@@ -12,6 +12,8 @@ class AdminProspects extends Component
     use WithPagination;
     protected $paginationTheme = "bootstrap";
     public $search;
+    public $sort = 'id';
+    public $direction = 'desc';
     
     public function render()
     {
@@ -22,6 +24,7 @@ class AdminProspects extends Component
             ->orWhere('email', 'LIKE', '%' . $this->search . '%')->where(function ($query){
                 $query->where('status', '<=', 3);
             })
+            ->orderBy($this->sort, $this->direction)
             ->paginate(10);
         }else{
             $prospects = Customer::where('name', 'LIKE', '%' .  $this->search . '%' )->where('created_by', '=', Auth::user()->id)
@@ -31,10 +34,24 @@ class AdminProspects extends Component
             ->orWhere('email', 'LIKE', '%' . $this->search . '%'  && 'status', '<', 3)->where('created_by', '=', Auth::user()->id)->where(function ($query){
                 $query->where('status', '<=', 3);
             })
+            ->orderBy($this->sort, $this->direction)
             ->paginate(10);
         }
                 
         return view('livewire.admin-prospects', compact('prospects'));
+    }
+
+    public function order($sort){
+        if($this->sort == $sort){
+            if($this->direction == 'desc'){
+                $this->direction = 'asc';
+            }else{
+                $this->direction = 'desc';
+            }
+        }else{
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
     }
 
     public function limpiar_page(){
