@@ -29,11 +29,51 @@
                                 <table class="table align-items-center table-flush">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th scope="col">{{ __('Folio') }}</th>
-                                            <th scope="col">{{ __('Customer') }}</th>
-                                            <th scope="col">{{ __('Created By') }}</th>
-                                            <th scope="col">{{ __('Status') }}</th>
-                                            <th scope="col">{{ __('Creation Date') }}</th>
+                                            <th scope="col" wire:click="order('id')">{{ __('Folio') }}
+                                                @if($sort == 'id')
+                                                    @if($direction == 'asc')
+                                                        <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                                                    @else
+                                                        <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                                                    @endif
+                                                @endif
+                                            </th>
+                                            <th scope="col" wire:click="order('customer_name')">{{ __('Customer') }}
+                                                @if($sort == 'customer_name')
+                                                    @if($direction == 'asc')
+                                                        <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                                                    @else
+                                                        <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                                                    @endif
+                                                @endif
+                                            </th>
+                                            <th scope="col" wire:click="order('user_name')">{{ __('Created By') }}
+                                                @if($sort == 'user_name')
+                                                    @if($direction == 'asc')
+                                                        <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                                                    @else
+                                                        <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                                                    @endif
+                                                @endif
+                                            </th>
+                                            <th scope="col" wire:click="order('status')">{{ __('Status') }}
+                                                @if($sort == 'status')
+                                                    @if($direction == 'asc')
+                                                        <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                                                    @else
+                                                        <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                                                    @endif
+                                                @endif
+                                            </th>
+                                            <th scope="col" wire:click="order('created_at')">{{ __('Creation Date') }}
+                                                @if($sort == 'created_at')
+                                                    @if($direction == 'asc')
+                                                        <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                                                    @else
+                                                        <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                                                    @endif
+                                                @endif
+                                            </th>
                                             @can('editar diagnosticos', App\User::class)
                                                 <th scope="col"></th>
                                             @endcan

@@ -14,6 +14,8 @@ class AdminDiagnostics extends Component
 
     protected $paginationTheme = "bootstrap";
     public $search;
+    public $sort = 'id';
+    public $direction = 'desc';
 
     public function render()
     {
@@ -28,6 +30,7 @@ class AdminDiagnostics extends Component
             ->orWhere('users.name', 'LIKE', '%' . $this->search . '%')->where(function ($query){
                 $query->where('diagnostics.created_by', '=', Auth::user()->id);
             })
+            ->orderBy($this->sort, $this->direction)
             ->paginate(10);
             /*$diagnostics = Diagnostic::where('created_by', '=', Auth::user()->id)
             ->where()
@@ -40,11 +43,25 @@ class AdminDiagnostics extends Component
             ->select('diagnostics.*', 'customers.name as customer_name', 'users.name as user_name')
             ->where('customers.name', 'LIKE', '%' . $this->search . '%')
             ->orWhere('users.name', 'LIKE', '%' . $this->search . '%')
+            ->orderBy($this->sort, $this->direction)
             ->paginate(10);
             //dd($diagnostics);
         }
 
         return view('livewire.admin-diagnostics', compact('diagnostics'));
+    }
+
+    public function order($sort){
+        if($this->sort == $sort){
+            if($this->direction == 'desc'){
+                $this->direction = 'asc';
+            }else{
+                $this->direction = 'desc';
+            }
+        }else{
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
     }
 
     public function limpiar_page(){

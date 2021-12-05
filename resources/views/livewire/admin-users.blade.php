@@ -36,11 +36,27 @@
                                     <table class="table align-items-center table-flush">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col">Photo</th>
-                                                <th scope="col">{{ __('Name') }}</th>
-                                                <th scope="col">{{ __('Email') }}</th>
+                                                <th scope="col">{{ __('Photo')}}</th>
+                                                <th scope="col" wire:click="order('name')">{{ __('Name') }}
+                                                    @if($sort == 'name')
+                                                        @if($direction == 'asc')
+                                                            <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                                                        @else
+                                                            <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                                                        @endif
+                                                    @endif
+                                                </th>
+                                                <th scope="col" wire:click="order('email')">{{ __('Email') }}
+                                                    @if($sort == 'email')
+                                                        @if($direction == 'asc')
+                                                            <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                                                        @else
+                                                            <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                                                        @endif
+                                                    @endif
+                                                </th>
                                                 <th scope="col">{{ __('Role') }}</th>
-                                                <th scope="col">{{ __('Creation Date') }}</th>
+                                                <th scope="col" wire:click="order('created_at')">{{ __('Creation Date') }}</th>
                                                 @can('editar usuarios', App\User::class)
                                                     <th scope="col"></th>
                                                 @endcan
