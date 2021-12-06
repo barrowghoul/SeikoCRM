@@ -58,4 +58,22 @@ class UserController extends Controller
         $user->assignRole($request->role_id);
         return redirect()->route('users.index');
     }
+
+    public function suspend($id){
+        $user = User::findOrFail($id);
+        $user->status = User::SUSPENDED;
+        $user->update();
+        session()->flash('suspended', 'La cuenta de usuario ha sido deshabilitada exitosamente.');
+
+        return redirect()->route('users.edit', $user);
+    }
+
+    public function activate($id){
+        $user = User::findOrFail($id);
+        $user->status = User::ACTIVE;
+        $user->update();
+        session()->flash('activated', 'La cuenta de usuario ha sido reactivada exitosamente.');
+
+        return redirect()->route('users.edit', $user);
+    }
 }

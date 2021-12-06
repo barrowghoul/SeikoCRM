@@ -30,6 +30,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => 'auth'], function(){
     Route::resource('users', UserController::class)->names('users');
+    Route::get('suspend/{user_id}', [UserController::class, 'suspend'])->name('user.suspend');
+    Route::get('activate/{user_id}', [UserController::class, 'activate'])->name('user.activate');
     Route::resource('roles', RoleController::class)->names('roles');
     Route::resource('customers', CustomerController::class)->names('customers');
     Route::resource('prospects', ProspectController::class)->names('prospects');
@@ -41,6 +43,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('approveprospect/{prospect_id}', [ProspectController::class, 'approve'])->name('prospect.approve');
     Route::get('approvediagnostic/{diagnostic_id}', [DiagnosticController::class, 'approve'])->name('diagnostic.approve');
     Route::post('rejectprospect', [ProspectController::class, 'reject'])->name('prospect.reject');
+    Route::post('reasignprospect', [ProspectController::class, 'reasign'])->name('prospect.reasign');
     Route::post('rejectdiagnostic', [DiagnosticController::class, 'reject'])->name('diagnostic.reject');
 });
 

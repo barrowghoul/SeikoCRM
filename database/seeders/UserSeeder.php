@@ -40,5 +40,19 @@ class UserSeeder extends Seeder
             'password' => bcrypt('3r1kD5n13l')
         ]);
         $user->assignRole('Compras');
+
+        $user = User::create([
+            'name' => 'procesos',
+            'email' => 'procesos@metalboss.com.mx',
+            'password' => bcrypt('metalboss')
+        ]);
+        $user->assignRole('Administrador');
+
+        $user = User::create([
+            'name' => 'Paola',
+            'email' => 'paola@metalboss.com.mx',
+            'password' => bcrypt('metalboss')
+        ]);
+        $user->assignRole('Ventas');
     }
 }

@@ -55,6 +55,15 @@
                                                         @endif
                                                     @endif
                                                 </th>
+                                                <th scope="col" wire:click="order('status')">{{ __('Status') }}
+                                                    @if($sort == 'status')
+                                                        @if($direction == 'asc')
+                                                            <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                                                        @else
+                                                            <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                                                        @endif
+                                                    @endif
+                                                </th>
                                                 <th scope="col">{{ __('Role') }}</th>
                                                 <th scope="col" wire:click="order('created_at')">{{ __('Creation Date') }}</th>
                                                 @can('editar usuarios', App\User::class)
@@ -73,6 +82,13 @@
                                                     <td>{{ $user->name }}</td>
                                                     <td>
                                                         <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+                                                    </td>
+                                                    <td>
+                                                        @if($user->status == 1)
+                                                            {{ __('Active')}}
+                                                        @else
+                                                            {{ __('Suspended')}}
+                                                        @endif
                                                     </td>
                                                     <td>{{ $user->getRoleNames() }}</td>
                                                     <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>

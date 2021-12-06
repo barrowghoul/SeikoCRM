@@ -20,14 +20,18 @@
                                     <a href="{{ route('prospects.index') }}" class="btn btn-sm btn-primary">{{ __('Back') }}</a>
                                     @can('rechazar prospectos')
                                         @if($prospect->status == 1)
-                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">{{ _('Rechazar') }}</button>
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">{{ __('Rechazar') }}</button>
                                         @endif
+                                    @endcan
+                                    @can('reasignar prospectos')
+                                        <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#reasignModal">{{ __('Reasign') }}</button>
                                     @endcan
                                     @can('aprobar prospectos')
                                         @if($prospect->status < 3)
-                                            <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#approvalModal">{{ _('Aprobar') }}</button>
+                                            <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#approvalModal">{{ __('Aprobar') }}</button>
                                         @endif
-                                    @endcan      
+                                    @endcan
+                                          
                                     @can('crear clientes')
                                         @if($prospect->status == 3)
                                             <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#convertModal">{{ _('Convert to Client') }}</button>
@@ -328,6 +332,38 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">{{ __('Reject') }}</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" id="reasignModal" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <form method="post" action="{{ route('prospect.reasign') }}" autocomplete="off">
+                @csrf
+
+                <input type="hidden" name="id" value="{{ $prospect->id }}">
+                <div class="modal-header">
+                <h5 class="modal-title">{{ __('Reasign')}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">                
+                    <div class="form-group text-center">
+                        <label class="form-control-label" for="input-role">{{ __('Vendedor') }}</label>
+                        <select name="vendor_id" id="input-role" class="form-control{{ $errors->has('vendor_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Vendor') }}" required>
+                            <option value="">-</option>
+                            @foreach ($vendors as $vendor)
+                                <option value="{{ $vendor->id }}" {{ $vendor->id == old('vendor_id') ? 'selected' : '' }}>{{ $vendor->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>              
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">{{ __('Reasign') }}</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
                 </div>
             </form>

@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\CustomerReasigned;
 use Spatie\Permission\Models\Role;
 
 class ProspectController extends Controller
@@ -61,12 +62,21 @@ class ProspectController extends Controller
     }
 
     public function edit(Customer $prospect){
+
         $comments = ProspectComment::where('customer_id','=' , $prospect->id)->orderBy('created_at')->get();
+        $vendors = User::whereHas(
+            'roles', function($q){
+                $q->where('name', 'Ventas');
+            }
+        )
+        ->where('id', '<>', $prospect->created_by)
+        ->orderBy('name')->get();
+
         if($prospect->status < 4){
-            return view('prospects.edit', compact('prospect','comments'));
+            return view('prospects.edit', compact('prospect','comments', 'vendors'));
         }else{
             $customer = BranchOffice::where('customer_id','=', $prospect->id)->firstOrFail();
-            return view('prospects.edit', compact('prospect','customer'));
+            return view('prospects.edit', compact('prospect','customer', 'vendors'));
         }
         
     }
@@ -95,6 +105,15 @@ class ProspectController extends Controller
 
         return view('prospects.index');
 
+    }
+
+    public function reasign(Request $request){
+        $request->validate(['vendor_id' => 'required']);
+        $prospect = Customer::find($request->id);
+        $prospect->created_by = $request->vendor_id;
+        $prospect->update();
+        $user = User::find($request->vendor_id);
+        $user->notify(new CustomerReasigned(Auth::user()->id, $prospect->created_by, $prospect->id));
     }
 
     public function update(Request $request, Customer $prospect){

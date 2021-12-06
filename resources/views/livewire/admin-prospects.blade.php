@@ -101,7 +101,7 @@
                                                 </td>
                                                 <td>
                                                     @if($prospect->status == 1)
-                                                        PROSPECTO
+                                                        EN REVISION
                                                     @elseif($prospect->status == 2)
                                                         RECHAZADO
                                                     @else

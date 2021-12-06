@@ -6,7 +6,23 @@
 ])
 
 @section('content')
+    
     <div class="content">
+        @if($flash = Session::get('suspended'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{ $flash }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div> 
+        @elseif($flash = Session::get('activated'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{ $flash }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div> 
+        @endif
         <div class="container-fluid mt--6">
             <div class="row">
                 <div class="col-xl-12 order-xl-1">
@@ -18,6 +34,13 @@
                                 </div>
                                 <div class="col-4 text-right">
                                     <a href="{{ route('users.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
+                                    @can('suspender usuarios')
+                                        @if($user->status == 1)
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#suspendModal">{{ __('Suspend') }}</button>
+                                        @else
+                                            <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#activateModal">{{ __('Activar') }}</button>
+                                        @endif
+                                    @endcan
                                 </div>
                             </div>
                         </div>
@@ -41,16 +64,33 @@
 
                                         @include('alerts.feedback', ['field' => 'email'])
                                     </div>
-                                    <div class="form-group{{ $errors->has('role_id') ? ' has-danger' : '' }}">
-                                        <label class="form-control-label" for="input-role">{{ __('Role') }}</label>
-                                        <select name="role_id" id="input-role" class="form-control{{ $errors->has('role_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Role') }}" required>
-                                            <option value="">-</option>
-                                            @foreach ($roles as $role)
-                                                <option value="{{ $role->name }}" {{ $role->name == old('role_id') ? 'selected' : '' }}>{{ $role->name }}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group{{ $errors->has('role_id') ? ' has-danger' : '' }}">
+                                                <label class="form-control-label" for="input-role">{{ __('Role') }}</label>
+                                                <select name="role_id" id="input-role" class="form-control{{ $errors->has('role_id') ? ' is-invalid' : '' }}" placeholder="{{ __('Role') }}" required>
+                                                    <option value="">-</option>
+                                                    @foreach ($roles as $role)
+                                                        <option value="{{ $role->name }}" {{ $role->name == old('role_id') ? 'selected' : '' }}>{{ $role->name }}</option>
+                                                    @endforeach
+                                                </select>
 
-                                        @include('alerts.feedback', ['field' => 'role_id'])
+                                                @include('alerts.feedback', ['field' => 'role_id'])
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group{{ $errors->has('role_id') ? ' has-danger' : '' }}">
+                                                <label class="form-control-label" for="input-status">{{ __('Status') }}</label>
+                                                <select name="status" id="input-status" class="form-control{{ $errors->has('status') ? ' is-invalid' : '' }}" placeholder="{{ __('Status') }}" required>
+                                                    <option value="">-</option>
+                                                    @foreach ($roles as $role)
+                                                        <option value="{{ $role->name }}" {{ $role->name == old('role_id') ? 'selected' : '' }}>{{ $role->name }}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                @include('alerts.feedback', ['field' => 'role_id'])
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group{{ $errors->has('photo') ? ' has-danger' : '' }}">
                                         <label class="form-control-label" for="input-name">{{ __('Profile photo') }}</label>
@@ -81,6 +121,46 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" id="suspendModal" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">                      
+                <div class="modal-header">
+                <h5 class="modal-title">{{ __('Suspend')}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">                
+                    ¿Desea desactivar a este usuario?    
+                    <br>
+                    Al desactivar la cuenta el usuario ya no tendrá acceso al sistema pero su información no será eliminada.      
+                </div>
+                <div class="modal-footer">
+                <a href="{{ route('user.suspend', $user->id) }}" class="btn btn-primary">{{ __('Suspend')}}</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
+                </div>
+          </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" id="activateModal" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">                      
+                <div class="modal-header">
+                <h5 class="modal-title">{{ __('Activate')}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">                
+                    ¿Desea activar a este usuario?          
+                </div>
+                <div class="modal-footer">
+                <a href="{{ route('user.activate', $user->id) }}" class="btn btn-primary">{{ __('Activate')}}</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
+                </div>
+          </div>
         </div>
     </div>
 @endsection
