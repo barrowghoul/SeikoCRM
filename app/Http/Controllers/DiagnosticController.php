@@ -111,7 +111,8 @@ class DiagnosticController extends Controller
 
     public function approve($id){
         $diagnostic = Diagnostic::findOrFail($id);
-        $diagnostic->status = Diagnostic::APPROVED;
+        $diagnostic->approved_at = Carbon::now()->toDateTimeString();
+        $diagnostic->status = Diagnostic::APPROVED;        
         $diagnostic->save();
 
         return view('diagnostics.index');

@@ -13,6 +13,7 @@ class Diagnostic extends Model
     const PENDING = 1;
     const REJECTED = 2;
     const APPROVED = 3;
+    const COMPLETED = 4;
 
     const ONTIME = 1;
     const ALERTED = 2;

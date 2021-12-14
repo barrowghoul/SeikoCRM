@@ -39,10 +39,21 @@ class DiagnosticTask extends Command
      */
     public function handle()
     {
-        Diagnostic::where('status', '=',Diagnostic::PENDING)
+        Diagnostic::where('status', '=', Diagnostic::PENDING)
         ->where('approval_status', '=', 1)
         ->where('started_at', '<=', Carbon::now()->subHours(1)->toDateTimeString())
         ->update(['approval_status' => Diagnostic::EXPIRED]);
+
+        Diagnostic::where('status', '=', Diagnostic::APPROVED)
+        ->where('completed_status', '=', Diagnostic::ONTIME)
+        ->where('approved_at', '<=', Carbon::now()->subDays(1)->toDateTimeString())
+        ->update(['completed_status' => Diagnostic::ALERTED]);
+
+        Diagnostic::where('status', '=', Diagnostic::APPROVED)
+        ->where('completed_status', '=', Diagnostic::ALERTED)
+        ->where('approved_at', '<=', Carbon::now()->subDays(30)->toDateTimeString())
+        ->update(['completed_status' => Diagnostic::EXPIRED]);
+
         return "Diagnostic Task ran";
     }
 }

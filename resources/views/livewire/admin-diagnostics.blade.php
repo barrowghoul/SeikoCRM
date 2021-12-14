@@ -81,9 +81,9 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($diagnostics as $diagnostic)
-                                            @if($diagnostic->approval_status == 2 && $diagnostic->status == 1)
+                                            @if(($diagnostic->approval_status == 2 && $diagnostic->status == 1) || ($diagnostic->completed_status == 2 && $diagnostic->status == 3))
                                                 <tr class="table-warning">                                                
-                                            @elseif($diagnostic->approval_status == 3 && $diagnostic->status == 1)
+                                            @elseif(($diagnostic->approval_status == 3 && $diagnostic->status == 1) || ($diagnostic->completed_status == 3 && $diagnostic->status == 3))
                                                 <tr class="table-danger">
                                             @else
                                                 </tr>

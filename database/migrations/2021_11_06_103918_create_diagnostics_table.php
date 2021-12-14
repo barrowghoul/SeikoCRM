@@ -20,8 +20,9 @@ class CreateDiagnosticsTable extends Migration
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
-            $table->enum('status',[Diagnostic::PENDING, Diagnostic::REJECTED, Diagnostic::APPROVED])->default(Diagnostic::PENDING);
+            $table->enum('status',[Diagnostic::PENDING, Diagnostic::REJECTED, Diagnostic::APPROVED, Diagnostic::COMPLETED])->default(Diagnostic::PENDING);
             $table->enum('approval_status',[Diagnostic::ONTIME, Diagnostic::ALERTED, Diagnostic::EXPIRED])->default(Diagnostic::PENDING);
+            $table->enum('completed_status',[Diagnostic::ONTIME, Diagnostic::ALERTED, Diagnostic::EXPIRED])->default(Diagnostic::PENDING);
             $table->string('legal_name')->nullable();
             $table->text('other_names')->nullable();
             $table->integer('employee_number')->nullable();
@@ -43,6 +44,8 @@ class CreateDiagnosticsTable extends Migration
             $table->text('engineering')->nullable();
             $table->text('quality')->nullable();
             $table->dateTime('started_at');
+            $table->dateTime('approved_at')->nullable();
+            $table->dateTime('completed_at')->nullable();
             $table->timestamps();
         });
     }
