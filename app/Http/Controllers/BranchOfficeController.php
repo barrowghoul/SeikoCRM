@@ -20,9 +20,10 @@ class BranchOfficeController extends Controller
             'rfc'=> 'required|min:12',
             'comercial_name' => 'required',
             'comercial_address' => 'required',
+            'pay_days' => 'required'
         ]);
 
-        BranchOffice::create([
+        $branch = BranchOffice::create([
             'customer_id' => $request->customer_id,
             'name' => strtoupper($request->name),
             'address' => strtoupper($request->address),
@@ -43,7 +44,7 @@ class BranchOfficeController extends Controller
             'payer_name' => strtoupper($request->payer_name),
             'payer_phone' => $request->payer_phone,
             'payer_mail' => $request->payer_mail,
-            'pay_days' => $request->pay_day,
+            'pay_days' => $request->pay_days,
             'requester_id' => Auth()->user()->id,
             'approver_id' => Auth()->user()->id,
         ]);
@@ -54,13 +55,26 @@ class BranchOfficeController extends Controller
             $customer->update();
         }            
 
-        return view('customer.index');
+        session()->flash('saved', 'El registro se guardó exitosamente');
+
+        return redirect()->route('branches.show', $branch);
+    }
+
+    public function show(BranchOffice $branch){
+
+        return view('branches.show', compact('branch'));
+    }
+
+    public function edit(BranchOffice $branch){        
+        return view('branches.edit', compact('branch'));
     }
 
     public function update(Request $request, BranchOffice $branch){        
 
         $branch->update($request->all());
 
-        return redirect()->route('prospects.index');
+        session()->flash('updated', 'El registro se actualizó exitosamente');
+
+        return redirect()->route('branches.edit', $branch);
     }
 }

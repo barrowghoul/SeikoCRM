@@ -30,6 +30,8 @@ class CreateCustomersTable extends Migration
             $table->unsignedBigInteger(('created_by'));
             $table->foreign('created_by')->references(('id'))->on('users');            
             $table->unsignedBigInteger(('approved_by'))->nullable();
+            $table->enum('contacted', [Customer::NOTCONTACTED, Customer::CONTACTED])->default(Customer::NOTCONTACTED);
+            $table->dateTime('contacted_at')->nullable();
             //$table->foreign('approved_by')->references(('id'))->on('users');
             
             $table->timestamps();

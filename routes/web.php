@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('approveprospect/{prospect_id}', [ProspectController::class, 'approve'])->name('prospect.approve');
     Route::get('approvediagnostic/{diagnostic_id}', [DiagnosticController::class, 'approve'])->name('diagnostic.approve');
     Route::post('rejectprospect', [ProspectController::class, 'reject'])->name('prospect.reject');
+    Route::post('contactcustomer', [ProspectController::class, 'contact'])->name('prospect.contact');
     Route::post('reasignprospect', [ProspectController::class, 'reasign'])->name('prospect.reasign');
     Route::post('rejectdiagnostic', [DiagnosticController::class, 'reject'])->name('diagnostic.reject');
 });

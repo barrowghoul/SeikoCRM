@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Customer;
+use App\Models\User;
+use App\Notifications\CustomerNotContacted;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -48,5 +50,21 @@ class CustomerTask extends Command
         ->where('approval_status', '=', 2)
         ->where('started_at', '<=', Carbon::now()->subRealHours(2)->toDateTimeString())
         ->update(['approval_status' => 3]);
+
+        $this->contacted();
+    }
+
+    public function contacted(){
+        $customers = Customer::where('status', '=', 3)
+        ->where('approval_status', '>=', 2)
+        ->where('contacted', '=', 1)
+        ->where('approved_at', '<=', Carbon::now()->subHours(8)->toDateTimeString())
+        ->get();
+
+        foreach($customers as $customer){
+            $user = User::find($customer->created_by);
+            $user->notify(new CustomerNotContacted($customer->id));
+        }
+
     }
 }

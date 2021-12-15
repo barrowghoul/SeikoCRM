@@ -17,31 +17,46 @@
                                     <h3 class="mb-0">{{ __('Prospect Management') }}</h3>
                                 </div>
                                 <div class="col-4 text-right">
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="nc-icon nc-bullet-list-67"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                @can('rechazar prospectos') 
+                                                    @if($prospect->status == 1)                                                                               
+                                                        <button class="dropdown-item" data-toggle="modal" data-target="#exampleModal">{{ __('Rechazar') }}</button>
+                                                    @endif
+                                                @endcan
+                                                
+                                                @can('reasignar prospectos')
+                                                    <button type="button" class="dropdown-item" data-toggle="modal" data-target="#reasignModal">{{ __('Reasign') }}</button>
+                                                @endcan        
+                                                
+                                                @can('aprobar prospectos')
+                                                    @if($prospect->status < 3)
+                                                        <button type="button" class="dropdown-item" data-toggle="modal" data-target="#approvalModal">{{ __('Aprobar') }}</button>
+                                                    @endif
+                                                @endcan
+
+                                                @can('crear clientes')
+                                                    @if($prospect->status == 3)
+                                                        <button type="button" class="dropdown-item" data-toggle="modal" data-target="#convertModal">{{ __('Convert to Client') }}</button>
+                                                    @endif
+                                                @endcan 
+
+                                                @if($prospect->status == 3)                                        
+                                                    @can('crear diagnosticos')
+                                                        <a href="{{ route('diagnostics.create', $prospect->id) }}" class="dropdown-item" >{{ __('Add Diagnostic') }}</a>
+                                                    @endcan
+                                                @endif
+                                                @if($prospect->approval_status >= 2)
+                                                    <button class="dropdown-item" data-toggle="modal" data-target="#contactModal">{{ __('Contact') }}</button>
+                                                @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-right">
                                     <a href="{{ route('prospects.index') }}" class="btn btn-sm btn-primary">{{ __('Back') }}</a>
-                                    @can('rechazar prospectos')
-                                        @if($prospect->status == 1)
-                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">{{ __('Rechazar') }}</button>
-                                        @endif
-                                    @endcan
-                                    @can('reasignar prospectos')
-                                        <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#reasignModal">{{ __('Reasign') }}</button>
-                                    @endcan
-                                    @can('aprobar prospectos')
-                                        @if($prospect->status < 3)
-                                            <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#approvalModal">{{ __('Aprobar') }}</button>
-                                        @endif
-                                    @endcan
-                                          
-                                    @can('crear clientes')
-                                        @if($prospect->status == 3)
-                                            <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#convertModal">{{ _('Convert to Client') }}</button>
-                                        @endif
-                                    @endcan                                   
-                                    @if($prospect->status ==3)                                        
-                                        @can('crear diagnosticos')
-                                            <a href="{{ route('diagnostics.create', $prospect->id) }}" class="btn btn-sm btn-success" >{{ _('Add Diagnostic') }}</a>
-                                        @endcan
-                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -338,6 +353,32 @@
           </div>
         </div>
     </div>
+    <div class="modal" tabindex="-1" id="contactModal" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <form method="post" action="{{ route('prospect.contact') }}" autocomplete="off">
+                @csrf
+
+                <input type="hidden" name="id" value="{{ $prospect->id }}">
+                <div class="modal-header">
+                <h5 class="modal-title">{{ __('Contact')}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">                
+                    <div class="form-group text-center">
+                        <textarea type="text" class="form-control" name="comments" id="comment"></textarea>
+                    </div>              
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
     <div class="modal" tabindex="-1" id="reasignModal" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -380,7 +421,7 @@
                 </button>
                 </div>
                 <div class="modal-body">                
-                    ¿Desea aprovar este prospecto?          
+                    ¿Desea aprobar este prospecto?          
                 </div>
                 <div class="modal-footer">
                 <a href="{{ route('prospect.approve', $prospect->id) }}" class="btn btn-primary">{{ __('Approve')}}</a>
@@ -393,7 +434,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">                      
                 <div class="modal-header">
-                <h5 class="modal-title">{{ __('Convert')}}</h5>
+                <h5 class="modal-title">{{ __('Convert to Client')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -107,6 +107,30 @@ class ProspectController extends Controller
 
     }
 
+    public function contact(Request $request){
+        $request->validate(['comments' => 'required']);
+
+        $prospect = Customer::find($request->id);
+
+        DB::transaction(function () use($request, $prospect) {
+            ProspectComment::create([
+                'customer_id' => $prospect->id,
+                'user_id' => Auth::user()->id,
+                'comments' => $request->comments
+            ]);
+            $prospect->contacted = Customer::CONTACTED;
+            $prospect->contacted_at = Carbon::now()->toDateTimeString();
+            $prospect->update();
+        });
+        
+        /*$comments = $request->comments;
+        $authorizers = User::select('email')->where("id", $prospect->created_by)->get();
+        $mail = new ProspectRejectedMailable($prospect, $comments);
+        Mail::to($authorizers)->send($mail);*/
+
+        return view('prospects.index');
+    }
+
     public function reasign(Request $request){
         $request->validate(['vendor_id' => 'required']);
         $prospect = Customer::find($request->id);
@@ -132,6 +156,8 @@ class ProspectController extends Controller
     public function approve($id){
         $prospect = Customer::find($id);
         $prospect->status = 3;
+        $prospect->approved_at = Carbon::now()->toDateTimeString();
+        $prospect->approved_by = auth()->user()->id;
         $prospect->save();
 
         $authorizers = User::select('email')->where("id", $prospect->created_by)->get();

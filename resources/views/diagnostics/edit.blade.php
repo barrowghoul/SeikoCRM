@@ -17,13 +17,22 @@
                                     <h3 class="mb-0">{{ __('Diagnostic Management') }}</h3>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="{{ route('diagnostics.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
-                                    @if ($diagnostic->status == 1)
-                                        @can('aprobar diagnosticos')
-                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">{{ _('Rechazar') }}</button>
-                                            <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#approvalModal">{{ _('Aprobar') }}</button>
-                                        @endcan
-                                    @endif
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="nc-icon nc-bullet-list-67"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            @if ($diagnostic->status == 1)
+                                                @can('aprobar diagnosticos')
+                                                    <button type="button" class="dropdown-item" data-toggle="modal" data-target="#exampleModal">{{ _('Rechazar') }}</button>
+                                                    <button type="button" class="dropdown-item" data-toggle="modal" data-target="#approvalModal">{{ _('Aprobar') }}</button>
+                                                @endcan
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <a href="{{ route('diagnostics.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>                                   
                                 </div>
                             </div>
                         </div>

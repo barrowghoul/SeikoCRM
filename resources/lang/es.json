@@ -52,7 +52,7 @@
     "Customers": "Clientes",
     "Add Customer": "Agregar Cliente",
     "Add Prospect": "Agregar Prospecto",
-    "Contact": "Contácto",
+    "Contact": "Contacto",
     "Convert to Client": "Convertir a Cliente",
     "Phone": "Teléfono",
     "Comercial Name": "Nombre Comercial",
@@ -95,5 +95,8 @@
     "Engineering": "Ingenieria",
     "Quality": "Calidad",
     "Approve Diagnostic": "Aprobar Diagnóstico",
-    "Reasign": "Reasignar"
+    "Reasign": "Reasignar",
+    "Created By": "Creado Por",
+    "Convert": "Convertir",
+    "Back to customer": "Regresar a Cliente"
 }

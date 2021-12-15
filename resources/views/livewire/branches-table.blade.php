@@ -12,13 +12,16 @@
                     <td class="text-center">{{ $branch->name }}</td>
                     <td class="text-center">{{ $branch->comercial_name }}</td>
                     <td class="text-center">{{ $branch->phone }}</td>
-                    <td class="text-right">                        
-                        <button type="button" rel="tooltip" class="btn btn-success btn-icon btn-sm ">
+                    <td class="text-right">  
+                        <a href="{{ route('branches.show', $branch) }}" rel="tooltip" class="btn btn-info btn-icon btn-sm">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a href="{{ route('branches.edit', $branch) }}" rel="tooltip" class="btn btn-success btn-icon btn-sm ">
                             <i class="fa fa-edit"></i>
-                        </button>
-                        <button type="button" rel="tooltip" class="btn btn-danger btn-icon btn-sm ">
+                        </a>
+                        <a href="#" rel="tooltip" class="btn btn-danger btn-icon btn-sm ">
                             <i class="fa fa-times"></i>
-                        </button>
+                        </a>
                     </td>
                 </tr>
             @endforeach

@@ -60,6 +60,10 @@ class User extends Authenticatable
         return $this->hasMany(Customer::class);
     }
 
+    public function prospects(){
+        return $this->hasMany(Custommer::class,'created_by');
+    }
+
     public function prospect_comments(){
         return $this->hasMany(ProspectComment::class);
     }

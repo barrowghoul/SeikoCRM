@@ -73,10 +73,7 @@
                                                         <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
                                                     @endif
                                                 @endif
-                                            </th>
-                                            @can('editar diagnosticos', App\User::class)
-                                                <th scope="col"></th>
-                                            @endcan
+                                            </th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -89,7 +86,7 @@
                                                 </tr>
                                             @endif
                                                 <td>{{ $diagnostic->id }}</td>
-                                                <td>{{ $diagnostic->customer_name }}</td>                                                
+                                                <td><a href="{{ route('diagnostics.edit', $diagnostic->id) }}">{{ $diagnostic->customer_name }}</a></td>
                                                 <td>{{ $diagnostic->user_name}}</td>
                                                 <td>
                                                     @if($diagnostic->status == 1)
@@ -100,27 +97,7 @@
                                                         APROBADO
                                                     @endif
                                                 </td>
-                                                <td>{{ $diagnostic->created_at }}</td>
-                                                @can('editar diagnosticos')
-                                                    <td class="text-right">
-                                                        @if (auth()->user()->can('editar diagnosticos') || auth()->user()->can('aprobar diagnosticos'))
-                                                            <div class="dropdown">
-                                                                <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    <i class="nc-icon nc-bullet-list-67"></i>
-                                                                </a>
-                                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                                    @if (Auth::user()->hasPermissionTo('editar diagnosticos'))
-                                                                        @can('editar diagnosticos')                                                                                
-                                                                            <a class="dropdown-item" href="{{ route('diagnostics.edit', $diagnostic->id) }}">{{ __('Edit') }}</a>
-                                                                        @endcan                                                                                                                                                                                                                   
-                                                                    @else
-                                                                        <a class="dropdown-item" href="#">{{ __('Edit') }}</a>
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        @endif
-                                                    </td>
-                                                @endcan
+                                                <td>{{ $diagnostic->created_at }}</td>                                                
                                             </tr>
                                         @endforeach
                                     </tbody>
