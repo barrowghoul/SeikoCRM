@@ -49,7 +49,7 @@
                                                         <a href="{{ route('diagnostics.create', $prospect->id) }}" class="dropdown-item" >{{ __('Add Diagnostic') }}</a>
                                                     @endcan
                                                 @endif
-                                                @if($prospect->approval_status >= 2)
+                                                @if($prospect->status >= 3)
                                                     <button class="dropdown-item" data-toggle="modal" data-target="#contactModal">{{ __('Contact') }}</button>
                                                 @endif
                                         </div>
